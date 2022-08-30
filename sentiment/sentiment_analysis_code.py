@@ -1,12 +1,14 @@
 import re
 from textblob import TextBlob
-from nltk.stem.wordnet import WordNetLemmatizer 
+from nltk.stem.wordnet import WordNetLemmatizer
 import itertools
 import numpy as np
 import nltk
 
 
-from nltk import word_tokenize,sent_tokenize
+from nltk import word_tokenize, sent_tokenize
+
+# data pipeline
 
 
 class sentiment_analysis_code():
@@ -30,13 +32,14 @@ class sentiment_analysis_code():
             else:
                 words = txt[0]
                 for k in range(len(txt)-1):
-                    words+= " " + txt[k+1]
+                    words += " " + txt[k+1]
                 txt = words
                 txt = re.sub(r'[^\w]', ' ', txt)
                 if len(txt) == 0:
                     return 'no text'
                 else:
-                    txt = ''.join(''.join(s)[:2] for _, s in itertools.groupby(txt))
+                    txt = ''.join(''.join(s)[:2]
+                                  for _, s in itertools.groupby(txt))
                     txt = txt.replace("'", "")
                     txt = nltk.tokenize.word_tokenize(txt)
                     #data.content[i] = [w for w in data.content[i] if not w in stopset]
@@ -48,12 +51,12 @@ class sentiment_analysis_code():
                         return txt
 
     def get_tweet_sentiment(self, tweet):
-        #cleaning of tweet
-            tweet = ' '.join(self.cleaning(tweet))
-            analysis = TextBlob(tweet)
-            if analysis.sentiment.polarity > 0:
-                return 'Positive'
-            elif analysis.sentiment.polarity == 0:
-                return 'Neutral'
-            else:
-                return 'Negative'
+        # cleaning of tweet
+        tweet = ' '.join(self.cleaning(tweet))
+        analysis = TextBlob(tweet)
+        if analysis.sentiment.polarity > 0:
+            return 'Positive'
+        elif analysis.sentiment.polarity == 0:
+            return 'Neutral'
+        else:
+            return 'Negative'
